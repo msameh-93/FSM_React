@@ -1,7 +1,11 @@
 import { combineReducers } from "redux";
 
-const combineReducer= combineReducers({
+import fileReducer from "./fileReducer";
+import errorReducer from "./errorReducer";
 
+const combineReducer= combineReducers({
+    fileReduxStore: fileReducer,
+    errorReduxStore: errorReducer
 });
 
 export default combineReducer;

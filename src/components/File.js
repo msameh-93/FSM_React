@@ -2,12 +2,39 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import classnames from "classnames";
 
+import {addFile} from "./../actions/fileActions";
+
 class File extends Component {
     constructor(props) {
         super(props);
         this.state= {
+            filename: "",
+            description: "",
             errors: {}
         }
+        this.onChange= this.onChange.bind(this);
+        this.onSubmit= this.onSubmit.bind(this);
+    }
+    componentWillReceiveProps(recProps) {
+        if(recProps.myErrors) {
+            this.setState({
+                errors: recProps.myErrors
+            })
+        }
+    }
+    onChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+    onSubmit(e) {
+        e.preventDefault();
+        const newFile= {
+            filename: this.state.filename,
+            description: this.state.description
+        }
+        this.props.addFile(newFile, this.props.history);
+        console.log(newFile);
     }
     render() {
         const {errors}= this.state;
@@ -23,15 +50,15 @@ class File extends Component {
                                     <div className="form-group">
                                         <input type="text" 
                                         className={classnames("form-control form-control-lg", {
-                                                    "is-invalid": errors.name
+                                                    "is-invalid": errors.filename
                                                 })} 
-                                        placeholder="Project Name"
-                                        name="File Name"
-                                        value={this.state.name}
+                                        placeholder="File Name"
+                                        name="filename"
+                                        value={this.state.filename}
                                         onChange={this.onChange} />
-                                        {errors.name && (
+                                        {errors.filename && (
                                             <div className="invalid-feedback">
-                                              {errors.name}
+                                              {errors.filename}
                                             </div>
                                           )}
                                     </div>
@@ -40,8 +67,8 @@ class File extends Component {
                                         className={classnames("form-control form-control-lg", {
                                             "is-invalid": errors.description
                                         })} 
-                                        placeholder="Project Description"
-                                        name="File Description"
+                                        placeholder="File Description"
+                                        name="description"
                                         value={this.state.description}
                                         onChange={this.onChange}></textarea>
                                         {errors.description && (
@@ -61,6 +88,11 @@ class File extends Component {
     }
 }
 
-const connectedFile= connect(null, null)(File);
+const mapStateToProps= (storeState) => {
+    return {
+        myErrors: storeState.errorReduxStore.errors
+    }
+}
+const connectedFile= connect(mapStateToProps, {addFile})(File);
 
 export default connectedFile;
