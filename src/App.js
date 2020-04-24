@@ -1,20 +1,26 @@
 import React, {Component} from 'react';
-import {connect} from "react-redux";
+import {Provider} from "react-redux";
 import {BrowserRouter, Route } from "react-router-dom";
+import store from "./store/store";
+/**Styling**/
 import './App.css';
-
-import Header from "./components/layout";
+import "bootstrap/dist/css/bootstrap.min.css";
+/*********Components**********/
+import Header from "./components/layout/Header";
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Header />
-        <div>Bismillah</div>
-      </div>
+      <Provider store={store}>
+        <BrowserRouter>
+          <div className="App">
+            <Header />
+            <Route to="/dashboard" componnet={Dashboard} />
+          </div>
+        </BrowserRouter>
+      </Provider>
     );
   }
 }
-const ConnectedApp= connect(null, null)(App);
 
-export default ConnectedApp;
+export default App;

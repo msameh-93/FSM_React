@@ -3,9 +3,15 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
 class Header extends Component {
+    constructor(props) {
+        super(props);
+        this.state= {
+            valid: true
+        }
+    }
     render() {
         return (
-<nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
+            <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
                 <div className="container">
                 {
                     this.state.valid &&
@@ -13,13 +19,13 @@ class Header extends Component {
                             <ul className="navbar-nav mr-auto">
                                 <li className="nav-item">
                                 <Link className="nav-link" to="/dashboard">
-                                Dashboard
+                                Welcome [Full Name]
                                 </Link>
                                 </li>
                             </ul>
                             <ul className="navbar-nav mr-auto">
                                 <li className="nav-item">
-                                    <Link onClick={this.onClick} to="/" className="btn btn-md btn-warning">
+                                    <Link onClick={this.onClick} to="/" className="btn btn-sm btn-warning">
                                     Sign Out
                                     </Link>
                                 </li>
