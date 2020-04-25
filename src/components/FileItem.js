@@ -5,15 +5,19 @@ import {connect} from "react-redux";
 import "bootstrap";
 import bootbox from "bootbox";
 
-import {deleteFile} from "./../actions/fileActions";
+import {deleteFile, downloadFile} from "./../actions/fileActions";
 
 class FileItem extends Component {
     constructor(props) {
         super(props);
         this.onDeleteClick= this.onDeleteClick.bind(this);
+        this.onDownloadClick= this.onDownloadClick.bind(this);
+    }
+    onDownloadClick(e) {
+        this.props.downloadFile(this.props.file.id, this.props.file.filename);
     }
     onDeleteClick(e) {
-        bootbox.confirm("Sure", (result) => {
+        bootbox.confirm("Are you sure you want to delete this file?", (result) => {
             if(result){
                 this.props.deleteFile(this.props.file.id);
             }
@@ -26,7 +30,7 @@ class FileItem extends Component {
                 <div className="card card-body bg-light mb-3">
                     <div className="row">
                         <div className="col-2">
-                            <span className="mx-auto">Serial Number</span>
+                            <span className="mx-auto">Serial Number<br/>[Placeholder]</span>
                         </div>
                         <div className="col-lg-6 col-md-4 col-8">
                             <h3>{file.filename}</h3>
@@ -35,7 +39,7 @@ class FileItem extends Component {
                         </div>
                         <div className="col-md-4 d-none d-lg-block">
                             <ul className="list-group">
-                                <Link to="/" >
+                                <Link to="/dashboard" onClick={this.onDownloadClick} >
                                     <li className="list-group-item update">
                                         <i className="fas fa-file-download"> Download</i>
                                     </li>
@@ -53,6 +57,6 @@ class FileItem extends Component {
     }
 }
 
-const ConnectedFileItem= connect(null, {deleteFile})(FileItem);
+const ConnectedFileItem= connect(null, {deleteFile, downloadFile})(FileItem);
 
 export default ConnectedFileItem;

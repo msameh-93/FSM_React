@@ -8,10 +8,12 @@ class File extends Component {
     constructor(props) {
         super(props);
         this.state= {
+            file: null,
             filename: "",
             description: "",
             errors: {}
         }
+        this.onFileChange= this.onFileChange.bind(this);
         this.onChange= this.onChange.bind(this);
         this.onSubmit= this.onSubmit.bind(this);
     }
@@ -22,6 +24,13 @@ class File extends Component {
             })
         }
     }
+    onFileChange(e) {
+        e.preventDefault();
+        this.setState({
+            file: e.target.files[0],
+            filename: e.target.files[0].name
+        })
+    }
     onChange(e) {
         this.setState({
             [e.target.name]: e.target.value
@@ -29,11 +38,12 @@ class File extends Component {
     }
     onSubmit(e) {
         e.preventDefault();
-        const newFile= {
-            filename: this.state.filename,
-            description: this.state.description
-        }
-        this.props.addFile(newFile, this.props.history);
+        const formData= new FormData();
+        formData.append("filename", this.state.filename);
+        formData.append("description", this.state.description);
+        formData.append("file", this.state.file);
+        
+        this.props.addFile(formData, this.props.history);
     }
     render() {
         const {errors}= this.state;
@@ -46,8 +56,28 @@ class File extends Component {
                                 <h5 className="display-4 text-center">Upload a file</h5>
                                 <hr />
                                 <form onSubmit={this.onSubmit}>
+                                    <div className="input-group">
+                                        <div className="custom-file">
+                                            <input 
+                                                type="file" 
+                                                accept=".txt,.pdf"
+                                                className={classnames("form-control form-control-lg", {
+                                                    "is-invalid": errors.filename
+                                                })} 
+                                                name="file" 
+                                                onChange={this.onFileChange}/>
+                                            {errors.file && (
+                                            <div className="invalid-feedback">
+                                              {errors.file}
+                                            </div>
+                                          )}
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <hr />
                                     <div className="form-group">
                                         <input type="text" 
+                                        disabled
                                         className={classnames("form-control form-control-lg", {
                                                     "is-invalid": errors.filename
                                                 })} 

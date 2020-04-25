@@ -30,7 +30,7 @@ class Header extends Component {
                             <ul className="navbar-nav mr-auto">
                                 <li className="nav-item">
                                 <Link className="nav-link" to="/dashboard">
-                                Welcome [Full Name]
+                                Welcome {this.props.myUserName}
                                 </Link>
                                 </li>
                             </ul>
@@ -51,6 +51,7 @@ class Header extends Component {
 
 const mapStateToProps= (currState) => {
     return {
+        myUserName: currState.userReduxStore.user.fullname,
         myValid: currState.userReduxStore.valid
     }
 }

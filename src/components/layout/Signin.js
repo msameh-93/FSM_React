@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import classnames from "classnames";
+import {Link} from "react-router-dom";
 
 import {signIn} from "./../../actions/userAction";
 
@@ -46,6 +47,17 @@ class Signin extends Component {
                     <div className="row">
                         <div className="col-md-8 m-auto">
                             <h1 className="display-4 text-center">Log In</h1>
+                            {
+                                errors.username && 
+                                (
+                                    <div className="alert alert-danger text-center">
+                                    <strong>Sign up instead?</strong><br />
+                                    <Link to="/signup" className="btn btn-lg btn-info">
+                                    Sign Up
+                                    </Link>
+                                    </div>
+                                )
+                            }
                             <form onSubmit={this.onSubmit}>
                                 <div className="form-group">
                                     <input 

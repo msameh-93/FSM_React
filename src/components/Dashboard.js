@@ -40,7 +40,7 @@ class Dashboard extends Component {
                                 !myValid && 
                                 (
                                     <div className="alert alert-danger text-center">
-                                    Invalid log in credentials...<br />
+                                    <strong>Invalid log in credentials...</strong><br />
                                     Please log in to use the File Management Tool!<br />
                                     <Link to="/signin" className="btn btn-lg btn-info">
                                     Login
@@ -53,7 +53,7 @@ class Dashboard extends Component {
                                 (
                                     <div className="alert alert-success text-center">
                                     Welcome to your Personal File Management Tool...<br />
-                                    Press Upload to start uploading files!<br />
+                                    Press <strong>Upload</strong> to start uploading files!<br />
                                     </div>
                                 )
                             }

@@ -53,4 +53,29 @@ const deleteFile= (fileId) => async dispatch => {
 
     }
 }
-export {getAllFiles, addFile, deleteFile };
+const downloadFile= (fileId, filename) => async dispatch => {
+    try {
+        const response= await axios.get(`/api/files/download/${fileId}`);
+        console.log(response);
+        console.log(filename);
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        const fileName = filename; // whatever your file name .
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();// you need to remove that elelment which is created before.
+
+        dispatch({
+            type: "GET_ERRORS",
+            payload: {}
+        })
+    } catch(error) {
+        dispatch({
+            type: "GET_ERRORS",
+            payload: error.response.data
+        })
+    }
+}
+export {getAllFiles, addFile, deleteFile, downloadFile };
