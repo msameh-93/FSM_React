@@ -13,7 +13,7 @@ const getAllFiles= () => async dispatch => {
         })
     } catch (error) {
         dispatch({
-            type: "GET_FILES",
+            type: "GET_ERRORS",
             payload: error.response.data
         })
     }

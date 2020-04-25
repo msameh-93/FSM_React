@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 
+import "bootstrap";
+import bootbox from "bootbox";
+
 import {deleteFile} from "./../actions/fileActions";
 
 class FileItem extends Component {
@@ -10,9 +13,11 @@ class FileItem extends Component {
         this.onDeleteClick= this.onDeleteClick.bind(this);
     }
     onDeleteClick(e) {
-        if(window.confirm("Sure")){
-            this.props.deleteFile(this.props.file.id);
-        }
+        bootbox.confirm("Sure", (result) => {
+            if(result){
+                this.props.deleteFile(this.props.file.id);
+            }
+        })
     }
     render() {
         const {file}= this.props;
