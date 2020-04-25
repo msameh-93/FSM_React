@@ -13,7 +13,7 @@ const fileReducer= (state= initialState, action) => {
         case "DELETE_FILE":
             return {
                 ...state,
-                files: this.state.files.filter(el => el.id !== action.payload)
+                files: state.files.filter(el => el.id !== action.payload)
             }
         default:
             return state;

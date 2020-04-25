@@ -22,13 +22,15 @@ class Dashboard extends Component {
                             </Link>
                             <br />
                             <hr /> 
+                            <hr />
                             {
                                 myFiles.map(el => {
-                                    return (<FileItem key={el.id} file={el} />)
+                                    return (<FileItem key={el.id} file={el} />);
                                 })
                             }                        
                             <br />
                             <hr />  
+                            <hr />
                         </div>
                     </div>
                 </div>

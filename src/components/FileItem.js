@@ -10,8 +10,9 @@ class FileItem extends Component {
         this.onDeleteClick= this.onDeleteClick.bind(this);
     }
     onDeleteClick(e) {
-        e.preventDefault();
-        console.log(`Deleting ${this.props.file.id}`);
+        if(window.confirm("Sure")){
+            this.props.deleteFile(this.props.file.id);
+        }
     }
     render() {
         const {file}= this.props;
@@ -25,7 +26,7 @@ class FileItem extends Component {
                         <div className="col-lg-6 col-md-4 col-8">
                             <h3>{file.filename}</h3>
                             <p>{file.description}</p>
-                            <p><strong>Uploaded Date: </strong>{file.uploadedDate}</p>
+                            <p><strong>Upload Date: </strong>{file.uploadedDate}</p>
                         </div>
                         <div className="col-md-4 d-none d-lg-block">
                             <ul className="list-group">
@@ -41,6 +42,7 @@ class FileItem extends Component {
                         </div>
                     </div>
                 </div>
+                <hr />
             </div>
         );
     }

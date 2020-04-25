@@ -2,12 +2,23 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
+import {signOut} from "./../../actions/userAction";
+
 class Header extends Component {
     constructor(props) {
         super(props);
         this.state= {
-            valid: true
+            valid: false
         }
+        this.onClick= this.onClick.bind(this);
+    }
+    componentWillReceiveProps(recProps) {
+        this.setState({
+            valid: recProps.myValid
+        })
+    }
+    onClick(e) {
+        this.props.signOut();
     }
     render() {
         return (
@@ -38,6 +49,12 @@ class Header extends Component {
     }
 }
 
-const ConnectedHeader= connect(null, null)(Header);
+const mapStateToProps= (currState) => {
+    return {
+        myValid: currState.userReduxStore.valid
+    }
+}
+
+const ConnectedHeader= connect(mapStateToProps, {signOut})(Header);
 
 export default ConnectedHeader;

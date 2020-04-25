@@ -34,7 +34,6 @@ class File extends Component {
             description: this.state.description
         }
         this.props.addFile(newFile, this.props.history);
-        console.log(newFile);
     }
     render() {
         const {errors}= this.state;

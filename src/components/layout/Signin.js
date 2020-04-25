@@ -2,12 +2,41 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import classnames from "classnames";
 
+import {signIn} from "./../../actions/userAction";
+
 class Signin extends Component {
     constructor(props) {
         super(props);
         this.state= {
+            username: "",
+            password: "",
             errors: {}
         }
+        this.onChange= this.onChange.bind(this);
+        this.onSubmit= this.onSubmit.bind(this);
+    }
+    componentWillReceiveProps(recProps) {
+        if(recProps.myError) {
+            this.setState({
+                errors: recProps.myError
+            })
+        }
+        if(recProps.myValid) {
+            this.props.history.push("/dashboard");
+        }
+    }
+    onChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+    onSubmit(e) {
+        e.preventDefault();
+        const loginReq= {
+            username: this.state.username,
+            password: this.state.password
+        }
+        this.props.signIn(loginReq);
     }
     render() {
         const {errors}= this.state;
@@ -60,6 +89,14 @@ class Signin extends Component {
     }
 }
 
-const ConnectedSignin= connect(null, null)(Signin);
+const mapStateToProps= (currState) => {
+    return {
+        myUser: currState.userReduxStore.user,
+        myError: currState.errorReduxStore.errors,
+        myValid: currState.userReduxStore.valid
+    }
+}
+
+const ConnectedSignin= connect(mapStateToProps, {signIn})(Signin);
 
 export default ConnectedSignin;

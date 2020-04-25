@@ -2,12 +2,42 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import classnames from "classnames";
 
+import {signUp} from "./../../actions/userAction";
+
 class Signup extends Component {
     constructor(props) {
         super(props);
         this.state= {
+            fullname: "",
+            username: "",
+            password: "",
+            passwordConfirm: "",
             errors: {}
         }
+        this.onChange= this.onChange.bind(this);
+        this.onSubmit= this.onSubmit.bind(this);
+    }
+    componentWillReceiveProps(recProps) {
+        if(recProps.myErrors) {
+            this.setState({
+                errors: recProps.myErrors
+            })
+        }
+    }
+    onChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+    onSubmit(e) {
+        e.preventDefault();
+        const newUser= {
+            fullname: this.state.fullname,
+            username: this.state.username,
+            password: this.state.password,
+            passwordConfirm: this.state.passwordConfirm
+        }
+        this.props.signUp(newUser, this.props.history);
     }
     render() {
         const { errors }= this.state;
@@ -23,16 +53,16 @@ class Signup extends Component {
                                     <input 
                                         type="text" 
                                         className={classnames("form-control form-control-lg", {
-                                            "is-invalid": errors.fullName
+                                            "is-invalid": errors.fullname
                                         })} 
                                         placeholder="Name" 
-                                        name="fullName"
+                                        name="fullname"
                                         required
-                                        value={this.state.fullName}
+                                        value={this.state.fullname}
                                         onChange={this.onChange} />
-                                        {errors.fullName && (
+                                        {errors.fullname && (
                                             <div className="invalid-feedback">
-                                              {errors.fullName}
+                                              {errors.fullname}
                                             </div>
                                           )}
                                 </div>
@@ -73,15 +103,15 @@ class Signup extends Component {
                                     <input 
                                         type="password" 
                                         className={classnames("form-control form-control-lg", {
-                                            "is-invalid": errors.confirmPassword
+                                            "is-invalid": errors.passwordConfirm
                                         })} 
                                         placeholder="Confirm Password"
-                                        name="confirmPassword"
-                                        value={this.state.confirmPassword}
+                                        name="passwordConfirm"
+                                        value={this.state.passwordConfirm}
                                         onChange={this.onChange} />
-                                        {errors.confirmPassword && (
+                                        {errors.passwordConfirm && (
                                             <div className="invalid-feedback">
-                                              {errors.confirmPassword}
+                                              {errors.passwordConfirm}
                                             </div>
                                           )}
                                 </div>
@@ -95,6 +125,11 @@ class Signup extends Component {
     }
 }
 
-const ConnectedSignup= connect(null, null)(Signup);
+const mapStateToError= (currState) => {
+    return {
+        myErrors: currState.errorReduxStore.errors
+    }
+}
+const ConnectedSignup= connect(mapStateToError, {signUp})(Signup);
 
 export default ConnectedSignup;

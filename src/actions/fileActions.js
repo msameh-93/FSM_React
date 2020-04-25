@@ -38,6 +38,10 @@ const deleteFile= (fileId) => async dispatch => {
     try {
         await axios.delete(`/api/files/${fileId}`);
         dispatch({
+            type: "DELETE_FILE",
+            payload: fileId
+        })
+        dispatch({
             type: "GET_ERRORS",
             payload: {}
         })
