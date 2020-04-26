@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
+import "bootstrap";
+import bootbox from "bootbox";
 
 import {getAllFiles} from "./../actions/fileActions";
 
@@ -10,8 +12,9 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state= {
-            errors: false
+            errors: false,
         }
+        this.updateComp= this.updateComp.bind(this);
     }
     componentWillReceiveProps(recProps) {
         if(recProps.myValid) {
@@ -19,8 +22,17 @@ class Dashboard extends Component {
                 errors: recProps.myValid
             })
         }
+        if(recProps.myErrors.accessDenied) {
+            bootbox.alert({
+                message: recProps.myErrors.accessDenied,
+                className: 'rubberBand animated alert alert-danger text-center'
+            });
+        }
     }
     componentDidMount(e) {
+        this.props.getAllFiles();
+    }
+    updateComp() {
         this.props.getAllFiles();
     }
     render() {
@@ -60,7 +72,7 @@ class Dashboard extends Component {
                             {
                                 myFiles &&
                                 myFiles.map(el => {
-                                    return (<FileItem key={el.id} file={el} />);
+                                    return (<FileItem update={this.updateComp} key={el.id} file={el} />);
                                 })
                             }                        
                             <br />
@@ -74,9 +86,11 @@ class Dashboard extends Component {
     }
 }
 const mapStateToProps= (storeState) => {
+    
     return {
         myFiles: storeState.fileReduxStore.files,
-        myValid: storeState.userReduxStore.valid
+        myValid: storeState.userReduxStore.valid,
+        myErrors: storeState.errorReduxStore.errors
     }
 }
 const ConnectedDashboard= connect(mapStateToProps, {getAllFiles})(Dashboard);

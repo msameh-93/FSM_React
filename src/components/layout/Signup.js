@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 import classnames from "classnames";
 
 import {signUp} from "./../../actions/userAction";
@@ -12,6 +13,7 @@ class Signup extends Component {
             username: "",
             password: "",
             passwordConfirm: "",
+            role: "",
             errors: {}
         }
         this.onChange= this.onChange.bind(this);
@@ -35,6 +37,7 @@ class Signup extends Component {
             fullname: this.state.fullname,
             username: this.state.username,
             password: this.state.password,
+            role: this.state.role,
             passwordConfirm: this.state.passwordConfirm
         }
         this.props.signUp(newUser, this.props.history);
@@ -48,6 +51,17 @@ class Signup extends Component {
                         <div className="col-md-8 m-auto">
                             <h1 className="display-4 text-center">Sign Up</h1>
                             <p className="lead text-center">Create your Account</p>
+                            {
+                                errors.username && 
+                                (
+                                    <div className="alert alert-danger text-center">
+                                    <strong>Sign in instead?</strong><br />
+                                    <Link to="/signin" className="btn btn-lg btn-info">
+                                    Sign in
+                                    </Link>
+                                    </div>
+                                )
+                            }
                             <form onSubmit={this.onSubmit}>
                                 <div className="form-group">
                                     <input 
@@ -112,6 +126,24 @@ class Signup extends Component {
                                         {errors.passwordConfirm && (
                                             <div className="invalid-feedback">
                                               {errors.passwordConfirm}
+                                            </div>
+                                          )}
+                                </div>
+                                <div className="form-group">
+                                    <select 
+                                        className={classnames("form-control form-control-lg", {
+                                        "is-invalid": errors.role
+                                        })} 
+                                        name="role"
+                                        value={this.state.role}
+                                        onChange={this.onChange}>
+                                        <option value="">Select Role</option>
+                                        <option value="ADMIN">Adminstrator</option>
+                                        <option value="USER">User</option>
+                                    </select>
+                                    {errors.role && (
+                                            <div className="invalid-feedback">
+                                              {errors.role}
                                             </div>
                                           )}
                                 </div>

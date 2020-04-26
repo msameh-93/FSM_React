@@ -54,6 +54,14 @@ class File extends Component {
                         <div className="row">
                             <div className="col-md-8 m-auto">
                                 <h5 className="display-4 text-center">Upload a file</h5>
+                                {
+                                    errors.file && 
+                                    (
+                                        <div className="alert alert-danger text-center">
+                                        <strong>{errors.file}</strong><br />
+                                        </div>
+                                    )
+                                }
                                 <hr />
                                 <form onSubmit={this.onSubmit}>
                                     <div className="input-group">

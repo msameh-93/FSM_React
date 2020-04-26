@@ -6,6 +6,7 @@ import store from "./store/store";
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 /*********Components**********/
+import ErrorBoundary from "./components/exceptions/ErrorBoundary";
 import Header from "./components/layout/Header";
 import Dashboard from "./components/Dashboard";
 import File from "./components/File";
@@ -19,13 +20,15 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <div className="App">
-            <Header />
-            <Route path="/" component={LandingPage} exact={true} />
-            <Route path="/signin" component={Signin} exact={true} />
-            <Route path="/signup" component={Signup} exact={true} />
+            <ErrorBoundary>
+              <Header />
+              <Route path="/" component={LandingPage} exact={true} />
+              <Route path="/signin" component={Signin} exact={true} />
+              <Route path="/signup" component={Signup} exact={true} />
 
-            <Route path="/dashboard" component={Dashboard} exact={true}/>
-            <Route path="/addFile" component={File} exact={true} />
+              <Route path="/dashboard" component={Dashboard} exact={true}/>
+              <Route path="/addFile" component={File} exact={true} />
+            </ErrorBoundary>
           </div>
         </BrowserRouter>
       </Provider>

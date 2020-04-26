@@ -34,6 +34,22 @@ const addFile= (newFile, history) => async dispatch => {
 
     }
 };
+const updateFile= (newFile, update) => async dispatch => {
+    try {
+        await axios.post(`/api/files/update`, newFile);
+        update();
+        dispatch({
+            type: "GET_ERRORS",
+            payload: {}
+        })
+    } catch (error) {
+        dispatch({
+            type: "GET_ERRORS",
+            payload: error.response.data
+        })
+
+    }
+};
 const deleteFile= (fileId) => async dispatch => {
     try {
         await axios.delete(`/api/files/${fileId}`);
@@ -78,4 +94,4 @@ const downloadFile= (fileId, filename) => async dispatch => {
         })
     }
 }
-export {getAllFiles, addFile, deleteFile, downloadFile };
+export {getAllFiles, addFile, updateFile, deleteFile, downloadFile };

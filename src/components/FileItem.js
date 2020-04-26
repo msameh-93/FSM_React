@@ -5,13 +5,23 @@ import {connect} from "react-redux";
 import "bootstrap";
 import bootbox from "bootbox";
 
-import {deleteFile, downloadFile} from "./../actions/fileActions";
+import {deleteFile, downloadFile, updateFile} from "./../actions/fileActions";
 
 class FileItem extends Component {
     constructor(props) {
         super(props);
+        this.onUpdateClick= this.onUpdateClick.bind(this);
         this.onDeleteClick= this.onDeleteClick.bind(this);
         this.onDownloadClick= this.onDownloadClick.bind(this);
+    }
+    onUpdateClick(e) {
+        bootbox.prompt("Insert new name: ", (input) => { 
+            const formData= new FormData();
+            formData.append("id", this.props.file.id);
+            formData.append("filename", input);
+
+            this.props.updateFile(formData, this.props.update);
+        });
     }
     onDownloadClick(e) {
         this.props.downloadFile(this.props.file.id, this.props.file.filename);
@@ -30,7 +40,7 @@ class FileItem extends Component {
                 <div className="card card-body bg-light mb-3">
                     <div className="row">
                         <div className="col-2">
-                            <span className="mx-auto">Serial Number<br/>[Placeholder]</span>
+                            <span className="mx-auto">Serial Number<br/>{this.props.file.serial}</span>
                         </div>
                         <div className="col-lg-6 col-md-4 col-8">
                             <h3>{file.filename}</h3>
@@ -42,6 +52,11 @@ class FileItem extends Component {
                                 <Link to="/dashboard" onClick={this.onDownloadClick} >
                                     <li className="list-group-item update">
                                         <i className="fas fa-file-download"> Download</i>
+                                    </li>
+                                </Link>
+                                <Link to="/dashboard" onClick={this.onUpdateClick} >
+                                    <li className="list-group-item update">
+                                        <i className="far fa-window-restore"> Rename File Name</i>
                                     </li>
                                 </Link>
                                 <li className="list-group-item delete" onClick={this.onDeleteClick}>
@@ -57,6 +72,6 @@ class FileItem extends Component {
     }
 }
 
-const ConnectedFileItem= connect(null, {deleteFile, downloadFile})(FileItem);
+const ConnectedFileItem= connect(null, {deleteFile, downloadFile, updateFile})(FileItem);
 
 export default ConnectedFileItem;
