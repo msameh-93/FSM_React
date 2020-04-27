@@ -72,8 +72,6 @@ const deleteFile= (fileId) => async dispatch => {
 const downloadFile= (fileId, filename) => async dispatch => {
     try {
         const response= await axios.get(`/api/files/download/${fileId}`);
-        console.log(response);
-        console.log(filename);
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
@@ -94,4 +92,6 @@ const downloadFile= (fileId, filename) => async dispatch => {
         })
     }
 }
+
+
 export {getAllFiles, addFile, updateFile, deleteFile, downloadFile };

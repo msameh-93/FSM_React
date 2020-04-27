@@ -5,6 +5,7 @@ import "bootstrap";
 import bootbox from "bootbox";
 
 import {getAllFiles} from "./../actions/fileActions";
+import {clearErrors} from "./../actions/errorActions";
 
 import FileItem from "./FileItem";
 
@@ -27,6 +28,7 @@ class Dashboard extends Component {
                 message: recProps.myErrors.accessDenied,
                 className: 'rubberBand animated alert alert-danger text-center'
             });
+            this.props.clearErrors();
         }
     }
     componentDidMount(e) {
@@ -98,7 +100,7 @@ const mapStateToProps= (storeState) => {
         myErrors: storeState.errorReduxStore.errors
     }
 }
-const ConnectedDashboard= connect(mapStateToProps, {getAllFiles})(Dashboard);
+const ConnectedDashboard= connect(mapStateToProps, {clearErrors, getAllFiles})(Dashboard);
 
 export default ConnectedDashboard;
 

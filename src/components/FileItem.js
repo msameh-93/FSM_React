@@ -40,12 +40,12 @@ class FileItem extends Component {
                 <div className="card card-body bg-light mb-3">
                     <div className="row">
                         <div className="col-2">
-                            <span className="mx-auto">Serial Number<br/>{this.props.file.serial}</span>
+                            <span className="mx-auto">Serial Number<br/>{file.serial}</span>
                         </div>
                         <div className="col-lg-6 col-md-4 col-8">
                             <h3>{file.filename}</h3>
                             <p>{file.description}</p>
-                            <p><strong>Upload Date: </strong>{file.uploadedDate}</p>
+                            <p><strong>Upload Date: </strong>{file.uploadDate}</p>
                         </div>
                         <div className="col-md-4 d-none d-lg-block">
                             <ul className="list-group">
