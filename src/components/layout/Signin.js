@@ -17,6 +17,7 @@ class Signin extends Component {
         this.onSubmit= this.onSubmit.bind(this);
     }
     componentWillReceiveProps(recProps) {
+        console.log("RECIEVED", recProps);
         if(recProps.myError) {
             this.setState({
                 errors: recProps.myError

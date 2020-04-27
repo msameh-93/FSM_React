@@ -42,9 +42,14 @@ class Dashboard extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                            <Link to="/addFile" className="btn btn-lg btn-info">
-                            Upload
-                            </Link>
+                            {
+                                myValid && 
+                                (
+                                    <Link to="/addFile" className="btn btn-lg btn-info">
+                                    Upload
+                                    </Link>
+                                )
+                            }
                             <br />
                             <hr /> 
                             <hr />
@@ -52,7 +57,7 @@ class Dashboard extends Component {
                                 !myValid && 
                                 (
                                     <div className="alert alert-danger text-center">
-                                    <strong>Invalid log in credentials...</strong><br />
+                                    <strong>Unauthorized access...</strong><br />
                                     Please log in to use the File Management Tool!<br />
                                     <Link to="/signin" className="btn btn-lg btn-info">
                                     Login
